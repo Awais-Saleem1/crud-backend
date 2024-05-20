@@ -18,8 +18,8 @@ app.get('/', (req, res) => {
     res.send("Hello from Node at Port 3000.")
 });
 
-
-mongoose.connect(process.env.DB_STRING)
+// DB_STRING
+mongoose.connect(process.env.DB_STRING_ATLAS)
     .then(() => {
         console.log('Connected to MongoDB Database!');
         app.listen(3000, () => {
@@ -29,3 +29,5 @@ mongoose.connect(process.env.DB_STRING)
     .catch(() => {
         console.log('Connection failed')
     });
+
+module.exports = app;
