@@ -2,14 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const productRoute = require('./routes/product.route.js');
 const authRoute = require('./routes/auth.route.js');
-// import 'dotenv/config';
+const cors = require('cors');
 require('dotenv').config()
 const app = express()
 
+const corsOptions = {
+    origin: ['https://simple-crud-backend-eta.vercel.app', 'http://localhost:3000']
+};
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
-
+app.use(cors(corsOptions))
 // routes
 app.use("/api/products", productRoute);
 app.use("/api/auth", authRoute)
