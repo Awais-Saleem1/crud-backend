@@ -5,13 +5,12 @@ const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } =
 const authenticateToken = require("../middleware/authenticateToken.js");
 
 router.get('/', authenticateToken, getProducts);
-router.get('/:id', getProduct);
-
 router.post('/', authenticateToken, createProduct);
+router.delete('/:id', authenticateToken, deleteProduct);
 
+router.get('/:id', getProduct);
 router.put('/:id', updateProduct);
 
-router.delete('/:id', authenticateToken, deleteProduct);
 
 
 module.exports = router;

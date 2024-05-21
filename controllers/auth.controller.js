@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 var validator = require('validator');
 
 const User = require('../models/user.model');
@@ -24,9 +24,9 @@ const registerUser = async (req, res) => {
         })) {
             return res.status(500).json({ message: "Password must be at least 8 characters long, must contain Alphanumeric characters" })
         }
-        // const hashedPassword = await bcrypt.hash(password, 10);
-        // const user = await User.create({ name, email, password: hashedPassword });
-        const user = await User.create({ name, email, password: password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await User.create({ name, email, password: hashedPassword });
+        // const user = await User.create({ name, email, password: password });
         console.log('user ->', user)
         res.status(200).json({ message: "User Registered Successfully" });
     } catch (error) {
@@ -63,13 +63,13 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ error: "Invalid Email or Password" });
         }
 
-        // const isPasswordValid = await bcrypt.compare(password, user.password);
-        // if (!isPasswordValid) {
-        //     res.status(400).json({ error: "Invalid Email or Password..." })
-        // };
-        if (password != user.password) {
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
             res.status(400).json({ error: "Invalid Email or Password..." })
-        }
+        };
+        // if (password != user.password) {
+        //     res.status(400).json({ error: "Invalid Email or Password..." })
+        // }
 
         // for expiry -> expiresIn: '1h' / '1d' or "120" which is equal to "120ms" 
         const token = jwt.sign(
